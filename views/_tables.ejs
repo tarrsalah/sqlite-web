@@ -1,0 +1,19 @@
+<div class="col-2">
+  <ul class="list-unstyled ps-0">
+    <li>
+      <a href="/create-table" class="text-decoration-none">
+        Create table
+      </a>
+    </li>
+
+    <li class="border-top my-3"></li>
+    <% for (const t of tables)  {  %>
+      <li>
+        <a href="/tables/<%=t.name%>"
+           class="text-decoration-none <%= tableName && (tableName === t.name) ? 'fw-bold' : ''%>">
+          <%= t.name %>
+        </a>
+      </li>
+    <% } %>
+</div>
+

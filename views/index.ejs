@@ -1,0 +1,29 @@
+<%- include('_header'); %>
+<div class="container-md">
+  <div class="row mt-4">
+    <%- include('_tables'); %>
+    <div class="col-10">
+      <table class="table table-sm">
+        <tbody>
+          <tr>
+            <th>File</th>
+            <td><%= info.filepath %></td>
+          </tr>
+          <tr>
+            <th>File size</th>
+            <td><%= info.filesize %></td>
+          </tr>
+          <tr>
+            <th>Created at</th>
+            <td><%= info.created_at.toISOString() %></td>
+          </tr>
+          <tr>
+            <th>Updated at</th>
+            <td><%= info.updated_at.toISOString() %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<%- include('_footer'); %>

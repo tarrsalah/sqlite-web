@@ -1,0 +1,41 @@
+<%- include("_header"); %>
+
+<div class="container-md">
+  <div class="row mt-4">
+    <%- include("_tables"); %>
+    <div class="col-10">
+      <%- include("_tab", {tab: "structure"}); %>
+      <h4>Add new column</h4>
+      <div class="border-top my-3"></div>
+
+      <form action="/columns" method="POST">
+        <input type="hidden" id="tableName" name="tableName" value="<%=tableName%>" />
+        <div class="mb-3">
+          <label for="columnName" class="form-label">Column name</label>
+          <input type="text" class="form-control" id="columnName" name="columnName" placeholder="column_name" autofocus>
+        </div>
+
+        <div class="mb-3">
+          <label for="columnType" class="form-label">Table type</label>
+          <select id="columnType" name="columnType" class="form-select" aria-label="Default select example">
+            <option selected>Select column type</option>
+            <% for (col in columnTypes) { %>
+              <option value="<%=col%>"><%=col%></option>
+            <% }  %>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <button type="submit" class="btn btn-success mr-2"><%="Create"%></button>
+        </div>
+      </form>
+
+      <div class="border-top my-3"></div>
+      <h4>Current schema </h4>
+      <code class="mt-4 p-4 fs-6">
+        <%= sqlDef %>
+      </code>
+    </div>
+  </div>
+</div>
+<%- include("_footer"); %>

@@ -1,0 +1,25 @@
+<%- include("_header"); %>
+<div class="container-md">
+  <div class="row mt-4">
+    <%- include("_tables"); %>
+    <div class="col-10">
+      <%- include("_tab", {tab: "structure"}); %>
+
+      <div class="clearfix mb-4">
+        <h4 class="float-start">Table: <%=tableName%></h4>
+        <a class="float-end btn btn-primary"
+           href="/add-column?tableName=<%=tableName%>"
+           role="button">
+          Add column</a>
+      </div>
+
+      <%- include("_columns") %>
+
+      <h4 class="my-5">SQL</h4>
+      <code class="mt-4 p-4 fs-6">
+        <%= sqlDef %>
+      </code>
+    </div>
+  </div>
+</div>
+<%- include("_footer"); %>
