@@ -1,8 +1,11 @@
 {
   "name": "sqlite-web",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "SQLite admin",
   "main": "index.js",
+  "bin": {
+    "sqlite-web": "./index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tarrsalah/sqlite-web.git"
