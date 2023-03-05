@@ -1,6 +1,7 @@
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import { filesize } from "filesize";
+import {promisify} from "node:util"
 
 export class TableNotFoundError extends Error {}
 

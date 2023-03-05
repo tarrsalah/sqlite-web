@@ -1,2 +1,0 @@
-* sqlite-web
-A javascript rewrite of https://github.com/coleifer/sqlite-web.

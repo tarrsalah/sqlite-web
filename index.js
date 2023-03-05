@@ -61,7 +61,7 @@ app.get("/tables/:tableName", async (req, res) => {
 
 app.get("/add-column", async (req, res) => {
   const tableName = req.query.tableName;
-  const [info, tables, sqlDef, columns] = await Promise.all([
+  const [info, tables, sqlDef] = await Promise.all([
     getInfos(db),
     listTables(db),
     getSqlDef(db, tableName),
