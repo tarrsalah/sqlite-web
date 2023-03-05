@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import * as path from "node:path";
 import sqlite3 from "sqlite3";
 import express from "express";
