@@ -15,8 +15,8 @@
   "scripts": {
     "start": "node index.js sqlite.db",
     "watchstart": "node --watch index.js sqlite.db",
-    "test": "node --test",
-    "watchtest": "node --test --watch .",
+    "test": "tap",
+    "watchtest": "tap --watch",
     "prettier": "prettier **/*.js **/**/*.js --write"
   },
   "type": "module",
@@ -25,6 +25,7 @@
     "ejs": "^3.1.8",
     "express": "^4.18.2",
     "filesize": "^10.0.6",
-    "sqlite3": "^5.1.4"
+    "sqlite3": "^5.1.4",
+    "tap": "^16.3.4"
   }
 }
