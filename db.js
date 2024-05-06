@@ -1,6 +1,7 @@
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import { filesize } from "filesize";
+import { format } from 'sql-formatter';
 import {promisify} from "node:util"
 
 export class TableNotFoundError extends Error {}
@@ -48,7 +49,8 @@ export function getTableSql(db, tableName) {
         if (!row) {
           return reject(new TableNotFoundError());
         }
-        resolve(row.sql);
+
+        resolve(format(row.sql, {language: 'sqlite'}));
       }
     );
   });
@@ -100,11 +102,13 @@ export async function getInfos(db) {
 }
 
 export async function createTable(db, tableName) {
+  const query = `CREATE TABLE ${tableName} (rowid integer primary key) without ROWID;`
   return new Promise((resolve, reject) => {
     db.run(
-      `CREATE TABLE ${tableName} (rowid integer primary key) without ROWID;`,
+      query,
       (err) => {
         if (err) {
+          console.log(err)
           return reject(new TableNotFoundError(err));
         }
         resolve();

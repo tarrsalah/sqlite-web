@@ -41,6 +41,7 @@ test("sqlite", async (t) => {
   });
 
   await t.test("create database table", async () => {
+
     await createTable(db, "testTable");
     const tables = await listTables(db);
     assert.equal(tables.length, 1);

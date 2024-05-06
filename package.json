@@ -1,6 +1,6 @@
 {
   "name": "sqlite-web",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "SQLite admin",
   "main": "index.js",
   "bin": {
@@ -15,17 +15,17 @@
   "scripts": {
     "start": "node index.js sqlite.db",
     "watchstart": "node --watch index.js sqlite.db",
-    "test": "tap",
-    "watchtest": "tap --watch",
+    "test": "node  --test  --test-reporter=spec",
+    "watchtest": "node  --test --watch --test-reporter=spec .",
     "prettier": "prettier **/*.js **/**/*.js --write"
   },
   "type": "module",
   "dependencies": {
     "body-parser": "^1.20.2",
-    "ejs": "^3.1.8",
-    "express": "^4.18.2",
-    "filesize": "^10.0.6",
-    "sqlite3": "^5.1.4",
-    "tap": "^16.3.4"
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "filesize": "^10.1.1",
+    "sql-formatter": "^15.3.1",
+    "sqlite3": "^5.1.7"
   }
 }
