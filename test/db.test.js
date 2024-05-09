@@ -41,7 +41,6 @@ test("sqlite", async (t) => {
   });
 
   await t.test("create database table", async () => {
-
     await createTable(db, "testTable");
     const tables = await listTables(db);
     assert.equal(tables.length, 1);
@@ -79,12 +78,10 @@ test("sqlite", async (t) => {
   });
 
   await t.test("list all table's rows", async (t) => {
-    await t.test("should empty rows array", async (t) => {
-      await createTable(db, "testTable");
-      await addColumn(db, "testTable", "columnName", "text");
-      const rows = await listRows(db, "testTable");
-      assert.strictEqual(rows.length, 0);
-    });
+    await createTable(db, "testTable");
+    await addColumn(db, "testTable", "columnName", "text");
+    const rows = await listRows(db, "testTable");
+    assert.strictEqual(rows.length, 0);
   });
 
   await t.test("insert new row", async () => {

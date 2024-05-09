@@ -1,8 +1,8 @@
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import { filesize } from "filesize";
-import { format } from 'sql-formatter';
-import {promisify} from "node:util"
+import { format } from "sql-formatter";
+import { promisify } from "node:util";
 
 export class TableNotFoundError extends Error {}
 
@@ -19,73 +19,42 @@ export const columnTypes = {
   DECIMAL: "DECIMAL",
 };
 
-export function listTables(db) {
-  return new Promise((resolve, reject) => {
-    db.all(
-      `
-    SELECT name FROM sqlite_master
-    WHERE type='table'`,
-      (err, rows) => {
-        if (err) {
-          return reject(err);
-        }
-
-        resolve(rows);
-      }
-    );
-  });
+export async function listTables(db) {
+  const all = promisify(db.all.bind(db));
+  const rows = await all(
+    `SELECT name FROM sqlite_master
+     WHERE type='table'`
+  );
+  return rows;
 }
 
-export function getTableSql(db, tableName) {
-  return new Promise((resolve, reject) => {
-    db.get(
-      "SELECT sql FROM sqlite_master WHERE tbl_name = ? AND type = ?",
-      [tableName, "table"],
-      (err, row) => {
-        if (err) {
-          return reject(err);
-        }
+export async function getTableSql(db, tableName) {
+  const get = promisify(db.get.bind(db));
+  const row = await get(
+    `SELECT sql FROM sqlite_master WHERE tbl_name = ? AND type = ?`,
+    [tableName, "table"]
+  );
+  if (row === undefined) {
+    throw new TableNotFoundError();
+  }
 
-        if (!row) {
-          return reject(new TableNotFoundError());
-        }
-
-        resolve(format(row.sql, {language: 'sqlite'}));
-      }
-    );
-  });
+  return format(row.sql, { language: "sqlite" });
 }
 
-export function addColumn(db, tableName, columnName, columnType) {
-  return new Promise((resolve, reject) => {
-    db.exec(
-      `ALTER TABLE ${tableName} ADD ${columnName} ${columnType}`,
-      (err) => {
-        if (err) {
-          return reject(err);
-        }
-        resolve();
-      }
-    );
-  });
+export async function addColumn(db, tableName, columnName, columnType) {
+  const exec = promisify(db.exec.bind(db));
+  await exec(`ALTER TABLE ${tableName} ADD ${columnName} ${columnType}`);
 }
 
-export function listColumns(db, tableName) {
-  return new Promise((resolve, reject) => {
-    db.all(`SELECT * FROM pragma_table_xinfo('${tableName}')`, (err, rows) => {
-      if (err) {
-        return reject(err);
-      }
-      resolve(
-        rows.map((row) => ({
-          name: row.name,
-          pk: row.pk,
-          null: !row.notnull,
-          type: row.type,
-        }))
-      );
-    });
-  });
+export async function listColumns(db, tableName) {
+  const all = promisify(db.all.bind(db));
+  const rows = await all(`SELECT * FROM pragma_table_xinfo('${tableName}')`);
+  return rows.map((row) => ({
+    name: row.name,
+    pk: row.pk,
+    null: !row.notnull,
+    type: row.type,
+  }));
 }
 
 export async function getInfos(db) {
@@ -102,30 +71,16 @@ export async function getInfos(db) {
 }
 
 export async function createTable(db, tableName) {
-  const query = `CREATE TABLE ${tableName} (rowid integer primary key) without ROWID;`
-  return new Promise((resolve, reject) => {
-    db.run(
-      query,
-      (err) => {
-        if (err) {
-          console.log(err)
-          return reject(new TableNotFoundError(err));
-        }
-        resolve();
-      }
-    );
-  });
+  const exec = promisify(db.exec.bind(db));
+  await exec(
+    `CREATE TABLE ${tableName} (rowid integer primary key) without ROWID;`
+  );
 }
 
 export async function listRows(db, tableName) {
-  return new Promise((resolve, reject) => {
-    db.all(`SELECT * from ${tableName}`, (err, rows) => {
-      if (err) {
-        return reject(err);
-      }
-      resolve(rows);
-    });
-  });
+  const all = promisify(db.all.bind(db));
+  const rows = await all(`SELECT * from ${tableName}`);
+  return rows;
 }
 
 export async function insertRow(db, tableName, row) {
@@ -150,12 +105,7 @@ export async function insertRow(db, tableName, row) {
   });
 
   sql = sql.concat(");");
-  return new Promise((resolve, reject) => {
-    db.run(sql, values, (err) => {
-      if (err) {
-        return reject(err);
-      }
-      resolve();
-    });
-  });
+
+  const run = promisify(db.run.bind(db));
+  await run(sql, values);
 }
