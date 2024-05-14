@@ -1,0 +1,52 @@
+<%- include('_header'); %>
+
+<h1>Table: <%=tableName%></h1>
+
+<div class="tabbed">
+  <ul class="tabs">
+	<li class="tab">
+      <a href="/<%=dbName%>/<%=tableName%>/rows">Content</a>
+    </li>
+	<li class="tab checked">
+      <a href="/<%=dbName%>/<%=tableName%>/structure">Show structure</a>
+    </li>
+    <li class="tab"><a href="/<%=dbName%>/<%=tableName%>/insert-row">New item</a></li>
+  </ul>
+  <div class="tab-content">
+  </div>
+</div>
+
+<section class="m">
+  <h2>SQL</h2>
+  <pre><code class="sql"><%=sql%></code></pre>
+</section>
+
+<section class="m">
+  <h2>Columns</h2>
+  <div class="overflow-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th></th>
+          <th>Column</th>
+          <th>Data type</th>
+          <th>Allow null</th>
+          <th>Primary key</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% columns.forEach((column, index) =>{ %>
+          <tr>
+            <td><%=index+1%></td>
+            <td class="actions"><a href="/<%=dbName%>/<%=tableName%>/columns/<%=column.name%>/rename">rename</a> | <a href="/<%=dbName%>/<%=tableName%>/columns/<%=column.name%>/drop">drop</a> </td>
+            <td><%=column.name%></td>
+            <td><%=column.type%></td>
+            <td><%=column.null ? "✓": ""%></td>
+            <td><%=column.pk ? "✓": ""%></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</section>

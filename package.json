@@ -1,11 +1,17 @@
 {
   "name": "sqlite-web",
-  "version": "0.1.5",
+  "version": "0.1.10",
   "description": "SQLite admin",
   "main": "index.js",
   "bin": {
-    "sqlite-web": "./index.js"
+    "sqlite-web": "./bin/index.js"
   },
+  "files": [
+    "index.js",
+    "bin/index.js",
+    "public/*",
+    "views/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tarrsalah/sqlite-web.git"
@@ -13,19 +19,28 @@
   "author": "Salah Eddine Taouririt <tarrsalah@gmail.com>",
   "license": "Apache-2.0",
   "scripts": {
-    "start": "node index.js sqlite.db",
-    "watchstart": "node --watch index.js sqlite.db",
+    "start": "node bin/index.js sqlite.db",
+    "watchstart": "node --watch bin/index.js sqlite.db",
     "test": "node  --test  --test-reporter=spec",
     "watchtest": "node  --test --watch --test-reporter=spec .",
+    "debug": "node inspect --test --watch .",
     "prettier": "prettier **/*.js **/**/*.js --write"
   },
   "type": "module",
   "dependencies": {
     "body-parser": "^1.20.2",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.6",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
+    "express-session": "^1.18.0",
     "filesize": "^10.1.1",
+    "serve-favicon": "^2.5.0",
     "sql-formatter": "^15.3.1",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "light-my-request": "^5.13.0"
   }
 }

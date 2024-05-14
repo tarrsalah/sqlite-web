@@ -1,0 +1,36 @@
+<%- include("_header"); %>
+
+<h1>Table: <%=tableName%></h1>
+
+<div class="tabbed">
+  <ul class="tabs">
+	<li class="tab">
+      <a href="/<%=dbName%>/<%=tableName%>/rows">Content</a>
+    </li>
+	<li class="tab"><a href="/<%=dbName%>/<%=tableName%>/structure">Show structure</a></li>
+    <li class="tab checked"><a href="/<%=dbName%>/<%=tableName%>/insert-row">New item</a></li>
+  </ul>
+  <div class="tab-content">
+  </div>
+</div>
+
+
+<section class="m">
+  <h3>Insert into <%=tableName%></h3>
+  <form class="pure-form pure-form-aligned" action="<%= action %>" method="POST">
+    <fieldset>
+      <div class="pure-control-group">
+        <input type="hidden" id="tableName" name="tableName" value="<%=tableName%>" />
+      </div>
+      <% columns.forEach((column, index) => {  %>
+        <div class="pure-control-group">
+          <label for="col:<%=column.name%>"><%= column.name %></label>
+          <input type="text" id="col:<%= column.name %>" name="col:<%= column.name %>" <%= (index == 0) ? "autofocus": ""%> placeholder="<%=column.name%>">
+        </div>
+      <% });  %>
+
+    </fieldset>
+    <button type="submit" class="pure-button pure-button-primary">Insert row</button>
+  </form>
+</section>
+<%- include("_footer"); %>

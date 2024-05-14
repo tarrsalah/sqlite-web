@@ -1,29 +1,26 @@
 <%- include('_header'); %>
-<div class="container-md">
-  <div class="row mt-4">
-    <%- include('_tables'); %>
-    <div class="col-10">
-      <table class="table table-sm">
-        <tbody>
-          <tr>
-            <th>File</th>
-            <td><%= info.filepath %></td>
-          </tr>
-          <tr>
-            <th>File size</th>
-            <td><%= info.filesize %></td>
-          </tr>
-          <tr>
-            <th>Created at</th>
-            <td><%= info.created_at.toISOString() %></td>
-          </tr>
-          <tr>
-            <th>Updated at</th>
-            <td><%= info.updated_at.toISOString() %></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+<h1>SQLite Web</h1>
+
+<% for (const db of _dbs) { %>
+  
+  <h2>
+    <a href="/<%=db.dbName%>"><%= db.dbName %></a>
+  </h2>
+
+  <% if (db.tables.length === 0)  {%>
+    <p class="message">No tables.</p>
+  <% } else { %>
+    <p>
+      <strong><%= db.rows %></strong> rows in <strong><%= db.tables.length%></strong> tables.
+    </p>
+
+    <p>
+      <% for (let i=0; i<db.tables.length; i++) { %>
+        <a href="/<%=db.dbName%>/<%= db.tables[i]%>/rows"><%=db.tables[i]%></a><% if (i < db.tables.length-1) { %>,<%}%>
+      <% } %>
+    </p>
+  <% } %>
+
+<% } %>
+
 <%- include('_footer'); %>

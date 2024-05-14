@@ -1,0 +1,299 @@
+/* Reset and Page Setup ==================================================== */
+
+/* Reset from http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol,
+ul {
+	list-style: none;
+}
+blockquote,
+q {
+	quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table tr {
+ border-top: 1px solid #cbcbcb; 
+}
+
+th {
+    padding-right: 1em;
+    white-space: nowrap;
+}
+strong {
+    font-weight: bold;
+}
+em {
+    font-style: italic;
+}
+/* end reset */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #111A35;
+  text-align: left;
+  /* background-color: #F8FAFB; */
+  word-wrap: break-word;
+}
+
+
+header  {
+  padding: 0.6rem 1rem 0.5rem 1rem;
+  background-color: #044a64;
+  color: white;
+  overflow: hidden;
+  box-sizing: border-box;
+  min-height: 2.6rem;
+}
+
+header p,
+footer p {
+    margin: 0;
+    padding: 0;
+}
+header .crumbs {
+    float: left;
+}
+
+
+/* links */
+header a:link,
+header a:visited,
+header a:hover,
+header a:focus,
+header a:active {
+    color: #fff;
+    text-decoration: none;
+}
+
+section.content {
+    margin: 1em;
+}
+
+section.m {
+    padding-top: 1em;
+    margin-bottom: 2em;
+}
+
+/* begin: headers */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  word-break: break-word;
+}
+
+h1  {
+  font-size: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+h2,
+.header2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+h3,
+.header2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+/* end: headers */
+
+/* start: links */
+a:link {
+  color:#276890;
+  text-decoration: underline;
+}
+a:visited {
+  color: #044a64;
+  text-decoration: underline;
+}
+a:hover,
+a:focus,
+a:active  {
+  color: #734559;
+  text-decoration: underline;
+}
+/* end: links */
+
+
+p.message {
+  padding: .5em;
+  margin: 1em 0;
+  color: green;
+  background: #efe;
+}
+
+code.sql {
+  display: inline-block;
+  font-family: monospace;
+  padding: 1em;
+  margin: 1em 0;
+  background-color: #ffffee;
+  border: 1px solid #ccc;
+  white-space: pre-wrap;
+}
+
+.overflow-wrapper {
+  overflow-x: auto;
+}
+
+td, th {
+  padding: 5px 15px;
+  vertical-align: top;
+  text-align: left;
+  text-align: start;
+  border-right: 1px solid #eee;
+}
+
+th {
+  color: #044a64;
+  font-weight: 700;
+
+}
+
+td {
+  border-top: 1px solid #ccc;
+  border-right: 1px solid #eee;
+}
+
+p.links a {
+  text-decoration: none;
+  margin-right: 2em;
+}
+
+td.actions a {
+  margin-right: 5px;
+}
+
+a.pk {
+    font-weight: bold;
+}
+
+a.pure-button {
+    text-decoration: none;
+}
+
+tabbed {
+  margin: 1em 0;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ccc;
+}
+
+.tabs {
+  display: flex;
+  align-items: stretch;
+  list-style: none;
+  padding: 0;
+}
+.tab > a {
+  display: block;
+  margin-bottom: -1px;
+  padding: .5rem 1rem;
+  font-size: .9rem;
+  font-weight: 600;
+  border-bottom: 1px solid #ccc;
+  text-decoration: none;
+
+}
+
+.tab-content {
+  display: none;
+  color: #777;
+}
+
+.tabbed .tabs .tab.checked a {
+  display: block;
+  color: #044a64;
+  border-bottom-color: #F8FAFB;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  font-weight: 900;
+}
+
+
+.pure-menu a {
+    font-size: .9em;
+    font-weight: bold;
+}
+
+.flash {
+    padding: 0.5rem 1rem;
+
+}
+
+.flash.flash-info {
+    color: #004085;
+    background-color: #cce5ff;
+    border-color: #b8daff;
+}
+
+.flash.flash-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.flash.flash-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+a.pure-button-error {
+    color: white;
+    background: rgb(202, 60, 60);
+}

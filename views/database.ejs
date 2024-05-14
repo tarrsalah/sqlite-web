@@ -1,0 +1,17 @@
+<%- include('_header'); %>
+<h1>Database: <%=dbName%></h1>
+<h2>Tables</h2>
+
+<% for (const table of tables) { %>
+  <h3>
+    <a href="/<%=dbName%>/<%=table.name%>/rows"><%= table.name %></a>
+  </h3>
+  <p>
+    <% for (let i=0; i<table.columns.length; i++) { %>
+      <em><%=table.columns[i].name%></em><% if (i < table.columns.length-1) { %>,<%}%>
+    <% } %>
+  </p>
+  <p><%=table.count%> rows</p>
+<% } %>
+
+<%- include('_footer'); %>

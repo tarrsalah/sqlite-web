@@ -1,94 +1,67 @@
 import test from "node:test";
 import assert from "node:assert";
 import * as fs from "node:fs/promises";
-import sqlite3 from "sqlite3";
+import { Database } from "../index.js";
 
-import {
-  addColumn,
-  listTables,
-  getInfos,
-  createTable,
-  getTableSql,
-  listColumns,
-  TableNotFoundError,
-  listRows,
-  insertRow,
-} from "../db.js";
+test("Db", async (t) => {
+  let db;
 
-let db;
-
-test("sqlite", async (t) => {
   t.beforeEach(async () => {
     try {
-      await fs.unlink("test.db");
+      await fs.unlink("test2.db");
     } catch (err) {
-      // handle err
-    }
-    db = new sqlite3.Database("test.db");
-  });
-
-  await t.test("listTables", async () => {
-    const tables = await listTables(db);
-    assert.deepEqual(tables, []);
-  });
-
-  await t.test("getInfos", async () => {
-    const { filesize, filepath, filename } = await getInfos(db);
-
-    assert.strictEqual(filepath, await fs.realpath("test.db"));
-    assert.strictEqual(Number(Array.from(filesize)[0]), 0);
-    assert.strictEqual(filename, "test.db");
-  });
-
-  await t.test("create database table", async () => {
-    await createTable(db, "testTable");
-    const tables = await listTables(db);
-    assert.equal(tables.length, 1);
-  });
-
-  await t.test("return table's sql", async () => {
-    await createTable(db, "testTable");
-    const sql = await getTableSql(db, "testTable");
-    assert(sql.includes("testTable"));
-  });
-
-  await t.test(
-    "trow TableNotFoundError when getting a table's sql",
-    async () => {
-      try {
-        await getTableSql(db, "testTable");
-      } catch (err) {
-        assert(err instanceof TableNotFoundError);
+      if (err.code !== "ENOENT") {
+        console.error(err);
       }
     }
-  );
-
-  await t.test("add column to table", async () => {
-    await createTable(db, "testTable");
-    await addColumn(db, "testTable", "columnName", "text");
-    const sql = await getTableSql(db, "testTable");
-    assert(sql.includes("testTable"));
-    assert(sql.includes("columnName"));
+    db = new Database("test2.db");
   });
 
-  await t.test("list all table's columns", async () => {
-    await createTable(db, "testTable");
-    const columns = await listColumns(db, "testTable");
-    assert.strictEqual(columns.length, 1);
+  await t.test("createTable", async () => {
+    await db.createTable("testTable");
+    const tableNames = await db.tableNames();
+    assert.deepStrictEqual(["testTable"], tableNames);
   });
 
-  await t.test("list all table's rows", async (t) => {
-    await createTable(db, "testTable");
-    await addColumn(db, "testTable", "columnName", "text");
-    const rows = await listRows(db, "testTable");
-    assert.strictEqual(rows.length, 0);
+  await t.test("tableNames", async () => {
+    const tableNames = await db.tableNames();
+    assert.deepEqual([], tableNames);
   });
 
-  await t.test("insert new row", async () => {
-    await createTable(db, "testTable");
-    await addColumn(db, "testTable", "columnName", "text");
-    await insertRow(db, "testTable", { rowid: 1, columnName: "value" });
-    const rows = await listRows(db, "testTable");
-    assert.strictEqual(rows.length, 1);
+  await t.test("tableColumns", async () => {
+    await db.exec("CREATE TABLE testTable (name VARCHAR);");
+    const tableColumns = await db.tableColumns("testTable");
+    assert.ok(
+      tableColumns.some(
+        (col) =>
+          col.name === "name" &&
+          col.type === "VARCHAR" &&
+          col.null === true &&
+          col.dflt_value === null &&
+          col.pk === 0 &&
+          col.hidden === 0
+      )
+    );
+  });
+
+  await t.test("primaryKeys with rowid only as pk", async (t) => {
+    await db.exec("CREATE TABLE testTable (name VARCHAR);");
+    const pks = await db.primaryKeys("testTable");
+    assert.deepStrictEqual([], pks);
+  });
+
+  await t.test("primaryKeys with pk in addition to rowid", async (t) => {
+    await db.exec("CREATE TABLE testTable (name VARCHAR PRIMARY KEY);");
+    const pks = await db.primaryKeys("testTable");
+    assert.deepStrictEqual(["name"], pks);
+  });
+
+  await t.test("composite primaryKeys", async (t) => {
+    await db.exec(
+      "CREATE TABLE person (name VARCHAR, age INTEGER, PRIMARY KEY (name, age));"
+    );
+    const pks = await db.primaryKeys("person");
+    assert.strictEqual(pks[0], "name");
+    assert.strictEqual(pks[1], "age");
   });
 });

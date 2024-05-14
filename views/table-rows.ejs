@@ -1,0 +1,47 @@
+<%- include('_header'); %>
+
+<h1>Table: <%=tableName%></h1>
+
+<div class="tabbed">
+  <ul class="tabs">
+	<li class="tab checked">
+      <a href="/<%=dbName%>/<%=tableName%>/rows">Content</a>
+    </li>
+	<li class="tab"><a href="/<%=dbName%>/<%=tableName%>/structure">Show structure</a></li>
+    <li class="tab"><a href="/<%=dbName%>/<%=tableName%>/insert-row">New item</a></li>
+  </ul>
+</div>
+
+
+<section class="m">
+  <h3><%=rows_with_pks.length%> rows</h3>
+  <div class="overflow-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th># Link</th>
+          <% columns.forEach((col) => { %>
+            <th scope="col">
+              <%=  col.name %>
+            </th>
+          <% }); %>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (const {row, pk} of rows_with_pks) { %>
+          <tr>
+            <td scope="col">
+              <a class ="pk" href="/<%=dbName%>/<%=tableName%>/<%=pk%>"><%=pk%></a>
+            </td>
+            <% columns.forEach((col) => { %>
+              <td scope="col">
+                <%=  row[col.name] %>
+              </td>
+            <% }); %>
+          </tr>
+        <% } %>
+
+      </tbody>
+    </table>
+  </div>
+</section>
